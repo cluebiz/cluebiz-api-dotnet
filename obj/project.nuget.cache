@@ -1,0 +1,12 @@
+{
+  "version": 2,
+  "dgSpecHash": "/xdC7DiN7XFM94/ul41X24TNxO7tGkr2DCtM5Y/WshF0IRh4zt78wzm0NQrr/IP0m09fBBjOOptOmHAtTJXINQ==",
+  "success": true,
+  "projectFilePath": "D:\\CluebizSolutionsGIT\\Labtagon.Cloud.Packages.CluebizClient\\Labtagon.Cloud.Packages.CluebizClient.csproj",
+  "expectedPackageFiles": [
+    "D:\\CluebizSolutionsGIT\\_PACKAGES\\microsoft.netcore.platforms\\1.1.0\\microsoft.netcore.platforms.1.1.0.nupkg.sha512",
+    "D:\\CluebizSolutionsGIT\\_PACKAGES\\netstandard.library\\2.0.3\\netstandard.library.2.0.3.nupkg.sha512",
+    "D:\\CluebizSolutionsGIT\\_PACKAGES\\newtonsoft.json\\13.0.3\\newtonsoft.json.13.0.3.nupkg.sha512"
+  ],
+  "logs": []
+}
