@@ -1,2 +1,2 @@
-# Labtagon.Cloud.Packages.CluebizClient
-Labtagon.Cloud.Packages.CluebizClient
+# Cluebiz API DOTNET
+Cluebiz Rest API in dotnet
