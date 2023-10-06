@@ -1,7 +1,7 @@
 ﻿using Newtonsoft.Json;
 using System;
 
-namespace Labtagon.Cloud.Packages.CluebizClient.Contracts
+namespace Cluebiz.API.Contracts
 {
     public class CVEResponse
     {

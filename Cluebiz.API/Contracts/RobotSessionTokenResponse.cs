@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 
-namespace Labtagon.Cloud.Packages.CluebizClient.Contracts
+namespace Cluebiz.API.Contracts
 {
     public class RobotSessionTokenResponse
     {

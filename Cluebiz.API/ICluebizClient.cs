@@ -1,8 +1,8 @@
-﻿using Labtagon.Cloud.Packages.CluebizClient.Contracts;
+﻿using Cluebiz.API.Contracts;
 using System;
 using System.Threading.Tasks;
 
-namespace Labtagon.Cloud.Packages.CluebizClient
+namespace Cluebiz.API
 {
     public interface ICluebizClient
     {

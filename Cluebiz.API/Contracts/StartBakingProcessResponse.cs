@@ -1,7 +1,7 @@
 ﻿using Newtonsoft.Json;
 using System;
 
-namespace Labtagon.Cloud.Packages.CluebizClient.Contracts
+namespace Cluebiz.API.Contracts
 {
     public class StartBakingProcessResponse
     {
@@ -13,7 +13,7 @@ namespace Labtagon.Cloud.Packages.CluebizClient.Contracts
     public class GetBakingProcessesResponse
     {
         [JsonProperty("processes")]
-        public CluebizBakingProcess[] Processes { get; set; } 
+        public CluebizBakingProcess[] Processes { get; set; }
     }
 
     public class CluebizBakingProcess
@@ -43,5 +43,5 @@ namespace Labtagon.Cloud.Packages.CluebizClient.Contracts
 
     }
 
-   
+
 }

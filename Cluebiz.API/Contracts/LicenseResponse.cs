@@ -1,11 +1,11 @@
 ﻿using Newtonsoft.Json;
 using System;
 
-namespace Labtagon.Cloud.Packages.CluebizClient.Contracts
+namespace Cluebiz.API.Contracts
 {
     public class LicenseResponse
     {
-        public License[] Licenses { get; set; } 
+        public License[] Licenses { get; set; }
     }
 
     public class License

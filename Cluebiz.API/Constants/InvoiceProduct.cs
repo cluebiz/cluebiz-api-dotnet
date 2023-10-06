@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Labtagon.Cloud.Packages.CluebizClient
+namespace Cluebiz.API.Constants
 {
     public static class InvoiceProduct
     {

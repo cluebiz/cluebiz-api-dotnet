@@ -1,7 +1,8 @@
-﻿using Newtonsoft.Json;
+﻿using Cluebiz.API.Constants;
+using Newtonsoft.Json;
 using System;
 
-namespace Labtagon.Cloud.Packages.CluebizClient.Contracts
+namespace Cluebiz.API.Contracts
 {
     public class GetCatalogItemInvoicesResponse
     {

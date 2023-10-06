@@ -2,7 +2,7 @@
 using System;
 using System.Linq;
 
-namespace Labtagon.Cloud.Packages.CluebizClient.Contracts
+namespace Cluebiz.API.Contracts
 {
     public class GetOrderDetailsResponse
     {
@@ -38,7 +38,7 @@ namespace Labtagon.Cloud.Packages.CluebizClient.Contracts
         public Guid Id { get; set; }
 
         [JsonProperty("orderFieldName")]
-        public string Name { get;set; }
+        public string Name { get; set; }
 
         [JsonProperty("orderFieldValue")]
         public string Value { get; set; }

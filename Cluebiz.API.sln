@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.5.33516.290
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cluebiz.API", "Cluebiz.API/Cluebiz.API.csproj", "{47D0B89B-7683-45F3-8D22-8770BA7FB578}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cluebiz.API", "Cluebiz.API\Cluebiz.API.csproj", "{47D0B89B-7683-45F3-8D22-8770BA7FB578}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cluebiz.API.Tests", "Cluebiz.API.Tests\Cluebiz.API.Tests.csproj", "{80DA3291-D893-4266-A3F2-D3557B1ACC06}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,10 +17,10 @@ Global
 		{47D0B89B-7683-45F3-8D22-8770BA7FB578}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{47D0B89B-7683-45F3-8D22-8770BA7FB578}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{47D0B89B-7683-45F3-8D22-8770BA7FB578}.Release|Any CPU.Build.0 = Release|Any CPU
-		{5F4FF1EA-374F-46C7-AFB4-4A61EB36E290}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{5F4FF1EA-374F-46C7-AFB4-4A61EB36E290}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{5F4FF1EA-374F-46C7-AFB4-4A61EB36E290}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{5F4FF1EA-374F-46C7-AFB4-4A61EB36E290}.Release|Any CPU.Build.0 = Release|Any CPU
+		{80DA3291-D893-4266-A3F2-D3557B1ACC06}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{80DA3291-D893-4266-A3F2-D3557B1ACC06}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{80DA3291-D893-4266-A3F2-D3557B1ACC06}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{80DA3291-D893-4266-A3F2-D3557B1ACC06}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

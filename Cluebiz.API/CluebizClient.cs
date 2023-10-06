@@ -1,4 +1,5 @@
-﻿using Labtagon.Cloud.Packages.CluebizClient.Contracts;
+﻿using Cluebiz.API.Constants;
+using Cluebiz.API.Contracts;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Specialized;
@@ -7,11 +8,11 @@ using System.Net;
 using System.Threading.Tasks;
 using System.Web;
 
-namespace Labtagon.Cloud.Packages.CluebizClient
+namespace Cluebiz.API
 {
     public class CluebizClient : CluebizClientBase, ICluebizClient
     {
-        public CluebizClient(string serverAddress, string userId, string key) 
+        public CluebizClient(string serverAddress, string userId, string key)
             : base(serverAddress, userId, key)
         {
         }
@@ -19,21 +20,21 @@ namespace Labtagon.Cloud.Packages.CluebizClient
         public Task<ClientResponse> GetClients()
             => Get<ClientResponse>("getClient");
 
-        public  Task<CVEResponse> GetCVEs(Guid clientId)
+        public Task<CVEResponse> GetCVEs(Guid clientId)
             => Get<CVEResponse>("GETSOFTWARECATALOGCVES", clientId);
-        
+
         public Task<GuidelinesResponse> GetGuidelines(Guid clientId)
             => Get<GuidelinesResponse>("getGuideline", clientId);
 
         public Task<CatalogResponse> GetSoftwareCatalog(Guid clientId)
             => Get<CatalogResponse>("getSoftwareCatalog", clientId, HttpUtility.ParseQueryString("detaillevel=high"));
-            
+
         public Task<GetSoftwareResponse> GetSoftware(Guid clientId)
             => Get<GetSoftwareResponse>("getSoftware", clientId);
 
         public Task<LicenseResponse> GetLicenses(Guid clientId)
             => Get<LicenseResponse>("GETLICENSE", clientId);
-        
+
         public async Task SetLicense(Guid clientId, Guid licenseId, string licenseType, DateTime? validUntil)
         {
             NameValueCollection query = HttpUtility.ParseQueryString(string.Empty);
@@ -149,7 +150,7 @@ namespace Labtagon.Cloud.Packages.CluebizClient
 
         public Task RemoveClient(Guid clientId)
             => Get("removeClient", clientId);
-        
+
         public Task SetGuidelineParameter(Guid clientId, Guid guidelineId, string parameterId, string parameterValue)
         {
             NameValueCollection query = HttpUtility.ParseQueryString(string.Empty);
@@ -175,9 +176,9 @@ namespace Labtagon.Cloud.Packages.CluebizClient
         }
 
         public Task<CreateCatalogItemInvoiceResponse> CreateCatalogItemInvoice(
-            Guid clientId, 
-            Guid softwareCatalogDeployId, 
-            string? invoiceproducttitle = null, 
+            Guid clientId,
+            Guid softwareCatalogDeployId,
+            string? invoiceproducttitle = null,
             Guid? invoiceId = null
             )
         {

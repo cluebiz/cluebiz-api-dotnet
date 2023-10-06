@@ -1,4 +1,4 @@
-﻿using Labtagon.Cloud.Packages.CluebizClient.Contracts;
+﻿using Cluebiz.API.Contracts;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Specialized;
@@ -7,7 +7,7 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web;
 
-namespace Labtagon.Cloud.Packages.CluebizClient
+namespace Cluebiz.API
 {
     public class CluebizClientBase
     {
@@ -73,7 +73,7 @@ namespace Labtagon.Cloud.Packages.CluebizClient
         protected async Task<HttpResponseMessage> Get(string cmd, Guid? clientId = null, NameValueCollection queryParams = null)
         {
             if (queryParams == null)
-                queryParams = HttpUtility.ParseQueryString(String.Empty);
+                queryParams = HttpUtility.ParseQueryString(string.Empty);
             queryParams["cmd"] = cmd;
             if (clientId.HasValue)
                 queryParams["clientId"] = clientId.ToString();

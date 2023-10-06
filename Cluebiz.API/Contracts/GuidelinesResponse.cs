@@ -1,7 +1,7 @@
 ﻿using Newtonsoft.Json;
 using System;
 
-namespace Labtagon.Cloud.Packages.CluebizClient.Contracts
+namespace Cluebiz.API.Contracts
 {
     public class GuidelinesResponse
     {
@@ -17,6 +17,6 @@ namespace Labtagon.Cloud.Packages.CluebizClient.Contracts
         [JsonProperty("guidelineTitle")]
         public string GuidelineTitle { get; set; }
 
-        public GuidelineParameter[] Paramters { get;set; }
+        public GuidelineParameter[] Paramters { get; set; }
     }
 }
