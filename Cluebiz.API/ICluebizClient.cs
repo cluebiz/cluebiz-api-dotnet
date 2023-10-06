@@ -85,7 +85,7 @@ namespace Cluebiz.API
 
         Task<CVEResponse> GetCVEs(Guid clientId);
 
-        Task<PackageParametersResponse> GetSoftwareCatalogParameters(Guid clientId, Guid softwareCatalogId);
+        Task<PackageParametersResponse> GetSoftwareCatalogParameters(Guid clientId, Guid softwareCatalogId, Guid? guidelineId = null);
 
         Task<LicenseResponse> GetLicenses(Guid clientId);
         Task SetLicense(Guid clientId, Guid licenseId, string licenseType, DateTime? validUntil);

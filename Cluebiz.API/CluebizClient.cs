@@ -51,10 +51,14 @@ namespace Cluebiz.API
             return Get<CatalogItemReleaseResponse>("getSoftwareCatalogReleases", clientId, query);
         }
 
-        public Task<PackageParametersResponse> GetSoftwareCatalogParameters(Guid clientId, Guid softwareCatalogId)
+        public Task<PackageParametersResponse> GetSoftwareCatalogParameters(Guid clientId, Guid softwareCatalogId, Guid? guidelineId = null)
         {
             NameValueCollection query = HttpUtility.ParseQueryString(string.Empty);
             query["softwareCatalogId"] = softwareCatalogId.ToString();
+
+            if(guidelineId.HasValue)
+                query["guidelineId"] = guidelineId.ToString();
+
             return Get<PackageParametersResponse>("GETSOFTWARECATALOGPARAMETERS", clientId, query);
         }
 
