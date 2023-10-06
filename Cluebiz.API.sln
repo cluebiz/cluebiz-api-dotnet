@@ -3,9 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.5.33516.290
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Labtagon.Cloud.Packages.CluebizClient", "Labtagon.Cloud.Packages.CluebizClient.csproj", "{47D0B89B-7683-45F3-8D22-8770BA7FB578}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Labtagon.Cloud.Packages.Demo", "..\Labtagon.Cloud.Packages.Demo\Labtagon.Cloud.Packages.Demo.csproj", "{5F4FF1EA-374F-46C7-AFB4-4A61EB36E290}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cluebiz.API", "Cluebiz.API/Cluebiz.API.csproj", "{47D0B89B-7683-45F3-8D22-8770BA7FB578}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
