@@ -4,10 +4,17 @@
     <TargetFramework>netstandard2.0</TargetFramework>
     <Nullable>enable</Nullable>
     <LangVersion>9.0</LangVersion>
+    <GenerateDocumentationFile>True</GenerateDocumentationFile>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
   </ItemGroup>
-
+ <PropertyGroup>
+    <Authors>Cluebiz Technologies GmbH, Labtagon GmbH</Authors>
+    <Description>API for Cluebiz Services</Description>
+    <PackageProjectUrl>https://www.cluebiz.ch</PackageProjectUrl>
+    <PackageTags>api</PackageTags>
+  </PropertyGroup>
 </Project>
+ 
