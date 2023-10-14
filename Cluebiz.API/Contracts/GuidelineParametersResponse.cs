@@ -11,22 +11,28 @@ namespace Cluebiz.API.Contracts
     public class GuidelineParameter
     {
         [JsonProperty("guidelineParameterId")]
-        public string GuidelineParameterId { get; set; }
+        public string Id { get; set; }
 
         [JsonProperty("guidelineParameterName")]
-        public string GuidelineParameterName { get; set; }
+        public string Name { get; set; }
 
         [JsonProperty("guidelineParameterValue")]
-        public string GuidelineParameterValue { get; set; }
+        public string Value { get; set; }
+
+        [JsonProperty("guidelineParameterDescription")]
+        public string Description { get; set; }
+
+        [JsonProperty("guidelineParameterOrigin")]
+        public string Origin { get; set; }
 
         [JsonProperty("guidelineParameterType")]
-        public string GuidelineParameterType { get; set; }
+        public string Type { get; set; }
 
         [JsonProperty("guidelineParameterPattern")]
-        public string GuidelineParameterPattern { get; set; }
+        public string Pattern { get; set; }
 
         [JsonProperty("guidelineParameterDefaultValue")]
-        public string GuidelineParameterDefaultValue { get; set; }
+        public string DefaultValue { get; set; }
 
         [JsonProperty("guidelineParameterRequired")]
         public string Required { get; set; }
