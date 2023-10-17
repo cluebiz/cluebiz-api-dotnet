@@ -9,28 +9,44 @@ namespace Cluebiz.API.Tests
     [TestClass]
     public class CluebizClientTests
     {
-        private CluebizClient client; 
+        private ICluebizClient client; 
         private Client testClient;
         private IConfigurationRoot configuration;
+
+        private string CUSTOMER_CLIENT_NAME;
+        private string GUIDELINE_TITLE;
 
         [TestInitialize]
         public async Task Init()
         {
-            var builder = new ConfigurationBuilder()
-                .AddUserSecrets<CluebizClientTests>();
+            try
+            {
+                var builder = new ConfigurationBuilder()
+    .AddUserSecrets<CluebizClientTests>()
+    .AddJsonFile("appsettings.Local.json", optional: false);
 
-            configuration = builder.Build();
+                configuration = builder.Build();
+            }
+            catch(Exception ee)
+            {
+                throw new Exception($"The test project setup is not complete. See readme.txt for instructions on how to set up the test project. {ee.Message}");
+            }
+
             
             if(configuration["ServerAddress"] == null)
             {
-                throw new Exception("Please make sure you've created a secret containing the keys `ServerAddress`, `UserId` and `Key`");
+                throw new Exception("Please make sure you've created a secret containing the keys `ServerAddress`, `UserId` and `Key`." +
+                    "\n See readme.txt for instructions on how to set up the test project.");
             }
 
-            client = new CluebizClient(
+            client = CluebizClientFactory.GetClient(
                 configuration["ServerAddress"],
                 configuration["UserId"],
                 configuration["Key"]
                 );
+
+            CUSTOMER_CLIENT_NAME = configuration["CustomerName"];
+            GUIDELINE_TITLE = configuration["GuidelineTitle"];
 
             testClient = await GetTestClient();
         }
@@ -43,7 +59,15 @@ namespace Cluebiz.API.Tests
             {
                 Assert.Inconclusive("There were no clients.");
             }
-            return clients.Clients.FirstOrDefault(x => x.ClientName.StartsWith("Labtagon GmbH - Intern"));
+            Client c = clients.Clients.FirstOrDefault(x => x.ClientName == CUSTOMER_CLIENT_NAME);
+            
+            if(c == null)
+            {
+                throw new Exception($"Customer client '{CUSTOMER_CLIENT_NAME}' set up in appsettings.Local.json was not found. See readme.txt file for test project setup.");
+            }
+
+            return c;
+
         }
 
         [TestMethod]
@@ -73,10 +97,13 @@ namespace Cluebiz.API.Tests
         public async Task Should_GetGuidelineParameters()
         {
             GuidelinesResponse response = await client.GetGuidelines(testClient.Id);
-            GuidelineParametersResponse guidelineParameters = await client.GetGuidelineParameters(testClient.Id,response.Guidelines.First(g => g.GuidelineTitle == "Matrix42").GuidelineID);
+            GuidelineParametersResponse guidelineParameters = await client.GetGuidelineParameters(testClient.Id,response.Guidelines.First(g => g.GuidelineTitle == GUIDELINE_TITLE).GuidelineID);
             Assert.IsNotNull(guidelineParameters);
 
-            
+            foreach (var parameter in guidelineParameters.Parameters)
+            {
+                Debug.WriteLine($"Name: '{parameter.Name}' Id:'{parameter.Id}'");
+            }
         }
     }
 }

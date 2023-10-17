@@ -22,4 +22,10 @@
     <ProjectReference Include="..\Cluebiz.API\Cluebiz.API.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="appsettings.Local.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>
