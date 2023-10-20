@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using System;
 
 namespace Cluebiz.API.Contracts
 {
@@ -14,7 +15,10 @@ namespace Cluebiz.API.Contracts
         public string Name { get; set; }
 
         [JsonProperty("softwareCatalogParameterId")]
-        public string Id { get; set; }
+        public Guid Id { get; set; }
+
+        [JsonProperty("softwareCatalogParameterTitle")]
+        public string Title { get; set; }
 
         [JsonProperty("fieldOrigin")]
         public string Origin { get; set; }
