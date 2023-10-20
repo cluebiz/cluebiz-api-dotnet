@@ -28,6 +28,9 @@ namespace Cluebiz.API.Contracts
         [JsonProperty("fieldPattern")]
         public string Pattern { get; set; }
 
+        [JsonProperty("fieldValue")]
+        public string FieldValue { get; set; }
+
         [JsonProperty("fieldDefaultValue")]
         public string DefaultValue { get; set; }
     }

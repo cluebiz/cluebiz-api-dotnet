@@ -81,6 +81,21 @@ namespace Cluebiz.API
             return Get<PackageParametersResponse>("GETSOFTWARECATALOGPARAMETERS", clientId, query);
         }
 
+        public Task<SetPackageParameterResponse> SetSoftwareCatalogParameter(Guid clientId, Guid softwareCatalogId, Guid softwareCatalogParameterId, string fieldValue, Guid? guidelineId = null)
+        {
+            NameValueCollection query = HttpUtility.ParseQueryString(string.Empty);
+            query["softwareCatalogId"] = softwareCatalogId.ToString();
+
+            query["softwareCatalogId"] = softwareCatalogId.ToString();
+            query["softwareCatalogParameterId"] = softwareCatalogParameterId.ToString();
+            query["fieldValue"] = fieldValue.ToString();
+
+            if (guidelineId.HasValue)
+                query["guidelineId"] = guidelineId.ToString();
+
+            return Get<SetPackageParameterResponse>("SETSOFTWARECATALOGPARAMETER", clientId, query);
+        }
+
 
         public Task<CatalogReleaseDownloadResponse> GetSoftwareCatalogDownloadLink(Guid clientId, Guid softwareCatalogDeployId, Guid guidelineId)
         {
@@ -240,6 +255,7 @@ namespace Cluebiz.API
             query["guidelineTitle"] = title;
             return (await Get<CreateGuidelineResponse>("ADDGUIDELINE", clientId, query)).GuidelineId;
         }
+
 
     }
 }
