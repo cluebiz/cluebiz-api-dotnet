@@ -73,7 +73,7 @@ namespace Cluebiz.API.Tests
         public async Task Should_GetGuidelineParameters()
         {
             GuidelinesResponse response = await client.GetGuidelines(testClient.Id);
-            GuidelineParametersResponse guidelineParameters = await client.GetGuidelineParameters(testClient.Id,response.Guidelines.First(g => g.GuidelineTitle == "Matrix42").GuidelineID);
+            GuidelineParametersResponse guidelineParameters = await client.GetGuidelineParameters(testClient.Id,response.Guidelines.First(g => g.GuidelineTitle == "Matrix Empirum").GuidelineID);
             Assert.IsNotNull(guidelineParameters);
 
             
