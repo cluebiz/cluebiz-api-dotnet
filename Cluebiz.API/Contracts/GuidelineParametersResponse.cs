@@ -38,6 +38,6 @@ namespace Cluebiz.API.Contracts
         public string DefaultValue { get; set; }
 
         [JsonProperty("guidelineParameterRequired")]
-        public string Required { get; set; }
+        public bool Required { get; set; }
     }
 }

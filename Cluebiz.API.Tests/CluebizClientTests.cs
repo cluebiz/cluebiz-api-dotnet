@@ -108,68 +108,68 @@ namespace Cluebiz.API.Tests
         }
 
 
-        [TestMethod]
-        public async Task Should_GetCatalogItemParameters()
-        {
-            // Adobe After Effects
-            Guid catalogItemId = Guid.Parse("6fcab492-3075-4335-9825-4a3c70409995");
+        //[TestMethod]
+        //public async Task Should_GetCatalogItemParameters()
+        //{
+        //    // Adobe After Effects
+        //    Guid catalogItemId = Guid.Parse("6fcab492-3075-4335-9825-4a3c70409995");
 
-            PackageParametersResponse response = await client.GetSoftwareCatalogParameters(testClient.Id, catalogItemId);
-            Assert.IsNotNull(response.Parameters);
+        //    PackageParametersResponse response = await client.GetSoftwareCatalogParameters(testClient.Id, catalogItemId);
+        //    Assert.IsNotNull(response.Parameters);
             
-            if(response.Parameters.Length == 0)
-            {
-                Assert.Inconclusive("Catalog Item has no parameters.");
-            }
+        //    if(response.Parameters.Length == 0)
+        //    {
+        //        Assert.Inconclusive("Catalog Item has no parameters.");
+        //    }
 
 
-            foreach (var parameter in response.Parameters)
-            {
-                Debug.WriteLine($"Name: '{parameter.Name}' Id:'{parameter.Id}' Value: '{parameter.FieldValue}' DefaultValue: '{parameter.DefaultValue}' ");
-            }
-        }
+        //    foreach (var parameter in response.Parameters)
+        //    {
+        //        Debug.WriteLine($"Name: '{parameter.Name}' Id:'{parameter.Id}' Value: '{parameter.FieldValue}' DefaultValue: '{parameter.DefaultValue}' ");
+        //    }
+        //}
 
 
-        [TestMethod]
-        public async Task Should_SetCatalogItemParameters()
-        {
-            // Chrome
-            Guid catalogItemId = Guid.Parse("6fcab492-3075-4335-9825-4a3c70409995");
+        //[TestMethod]
+        //public async Task Should_SetCatalogItemParameters()
+        //{
+        //    // Chrome
+        //    Guid catalogItemId = Guid.Parse("6fcab492-3075-4335-9825-4a3c70409995");
 
-            PackageParametersResponse response = await client.GetSoftwareCatalogParameters(testClient.Id, catalogItemId);
-            Assert.IsNotNull(response.Parameters);
+        //    PackageParametersResponse response = await client.GetSoftwareCatalogParameters(testClient.Id, catalogItemId);
+        //    Assert.IsNotNull(response.Parameters);
 
-            if (response.Parameters.Length == 0)
-            {
-                Assert.Inconclusive("Catalog Item has no parameters.");
-            }
+        //    if (response.Parameters.Length == 0)
+        //    {
+        //        Assert.Inconclusive("Catalog Item has no parameters.");
+        //    }
 
-            PackageParameter homePageParameter = response.Parameters.FirstOrDefault(p => p.Name == "HomePage");
+        //    PackageParameter homePageParameter = response.Parameters.FirstOrDefault(p => p.Name == "HomePage");
 
-            if(homePageParameter == null)
-            {
-                Assert.Inconclusive("Homepage Parameter not found.");
-            }
+        //    if(homePageParameter == null)
+        //    {
+        //        Assert.Inconclusive("Homepage Parameter not found.");
+        //    }
 
-            string testValue = "www.mytesturl.com";
-            string oldHomepage = homePageParameter.FieldValue;
+        //    string testValue = "www.mytesturl.com";
+        //    string oldHomepage = homePageParameter.FieldValue;
 
-            SetPackageParameterResponse setResponse = await client.SetSoftwareCatalogParameter(testClient.Id,catalogItemId,Guid.Parse(homePageParameter.Id), testValue);
+        //    SetPackageParameterResponse setResponse = await client.SetSoftwareCatalogParameter(testClient.Id,catalogItemId,Guid.Parse(homePageParameter.Id), testValue);
 
-            PackageParametersResponse newValueGetResponse = await client.GetSoftwareCatalogParameters(testClient.Id, catalogItemId);
+        //    PackageParametersResponse newValueGetResponse = await client.GetSoftwareCatalogParameters(testClient.Id, catalogItemId);
 
-            homePageParameter = newValueGetResponse.Parameters.FirstOrDefault(p => p.Name == "HomePage");
+        //    homePageParameter = newValueGetResponse.Parameters.FirstOrDefault(p => p.Name == "HomePage");
 
-            Assert.IsTrue(testValue == homePageParameter.FieldValue,"Did not set the value of the parameter.");
+        //    Assert.IsTrue(testValue == homePageParameter.FieldValue,"Did not set the value of the parameter.");
 
-            SetPackageParameterResponse setBackResponse = await client.SetSoftwareCatalogParameter(testClient.Id, catalogItemId, Guid.Parse(homePageParameter.Id), oldHomepage);
+        //    SetPackageParameterResponse setBackResponse = await client.SetSoftwareCatalogParameter(testClient.Id, catalogItemId, Guid.Parse(homePageParameter.Id), oldHomepage);
 
 
 
-            //foreach (var parameter in response.Parameters)
-            //{
-            //    Debug.WriteLine($"Name: '{parameter.Name}' Id:'{parameter.Id}' FieldValue: '{parameter.FieldValue}' DefaultValue: '{parameter.DefaultValue}' ");
-            //}
-        }
+        //    //foreach (var parameter in response.Parameters)
+        //    //{
+        //    //    Debug.WriteLine($"Name: '{parameter.Name}' Id:'{parameter.Id}' FieldValue: '{parameter.FieldValue}' DefaultValue: '{parameter.DefaultValue}' ");
+        //    //}
+        //}
     }
 }

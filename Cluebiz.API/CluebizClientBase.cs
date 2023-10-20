@@ -93,6 +93,7 @@ namespace Cluebiz.API
             string content = await response.Content.ReadAsStringAsync();
             if (string.IsNullOrWhiteSpace(content))
                 throw new Exception($"Failed to deserialize Cluebiz Api (result is empty) => cmd: {cmd} statusCode: {response.StatusCode}, content: {content}");
+
             T? deserialized = JsonConvert.DeserializeObject<T>(content);
 
             if (deserialized == null)
