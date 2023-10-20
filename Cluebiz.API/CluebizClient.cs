@@ -10,9 +10,20 @@ using System.Web;
 
 namespace Cluebiz.API
 {
-    public class CluebizClient : CluebizClientBase, ICluebizClient
+
+    /// <summary>
+    /// Implements convenient access to the cluebiz API.
+    /// </summary>
+    internal class CluebizClient : CluebizClientBase, ICluebizClient
     {
-        public CluebizClient(string serverAddress, string userId, string key)
+
+        /// <summary>
+        /// Creates a new cluebiz client, given correct secrets.
+        /// </summary>
+        /// <param name="serverAddress">Endpoint of the cluebiz API.</param>
+        /// <param name="userId">The cluebiz API user id.</param>
+        /// <param name="key">Secret key, belonging to the userId.</param>
+        internal CluebizClient(string serverAddress, string userId, string key)
             : base(serverAddress, userId, key)
         {
         }
@@ -20,20 +31,26 @@ namespace Cluebiz.API
         public Task<ClientResponse> GetClients()
             => Get<ClientResponse>("getClient");
 
+
         public Task<CVEResponse> GetCVEs(Guid clientId)
             => Get<CVEResponse>("GETSOFTWARECATALOGCVES", clientId);
 
         public Task<GuidelinesResponse> GetGuidelines(Guid clientId)
             => Get<GuidelinesResponse>("getGuideline", clientId);
 
+
         public Task<CatalogResponse> GetSoftwareCatalog(Guid clientId)
             => Get<CatalogResponse>("getSoftwareCatalog", clientId, HttpUtility.ParseQueryString("detaillevel=high"));
+
+
 
         public Task<GetSoftwareResponse> GetSoftware(Guid clientId)
             => Get<GetSoftwareResponse>("getSoftware", clientId);
 
+
         public Task<LicenseResponse> GetLicenses(Guid clientId)
             => Get<LicenseResponse>("GETLICENSE", clientId);
+
 
         public async Task SetLicense(Guid clientId, Guid licenseId, string licenseType, DateTime? validUntil)
         {
@@ -44,12 +61,14 @@ namespace Cluebiz.API
             await Get<LicenseResponse>("SETLICENSE", clientId, query);
         }
 
+
         public Task<CatalogItemReleaseResponse> GetSoftwareCatalogRelease(Guid clientId, Guid softwareCatalogId)
         {
             NameValueCollection query = HttpUtility.ParseQueryString(string.Empty);
             query["softwareCatalogId"] = softwareCatalogId.ToString();
             return Get<CatalogItemReleaseResponse>("getSoftwareCatalogReleases", clientId, query);
         }
+
 
         public Task<PackageParametersResponse> GetSoftwareCatalogParameters(Guid clientId, Guid softwareCatalogId, Guid? guidelineId = null)
         {
@@ -62,6 +81,22 @@ namespace Cluebiz.API
             return Get<PackageParametersResponse>("GETSOFTWARECATALOGPARAMETERS", clientId, query);
         }
 
+        public Task<SetPackageParameterResponse> SetSoftwareCatalogParameter(Guid clientId, Guid softwareCatalogId, Guid softwareCatalogParameterId, string fieldValue, Guid? guidelineId = null)
+        {
+            NameValueCollection query = HttpUtility.ParseQueryString(string.Empty);
+            query["softwareCatalogId"] = softwareCatalogId.ToString();
+
+            query["softwareCatalogId"] = softwareCatalogId.ToString();
+            query["softwareCatalogParameterId"] = softwareCatalogParameterId.ToString();
+            query["fieldValue"] = fieldValue.ToString();
+
+            if (guidelineId.HasValue)
+                query["guidelineId"] = guidelineId.ToString();
+
+            return Get<SetPackageParameterResponse>("SETSOFTWARECATALOGPARAMETER", clientId, query);
+        }
+
+
         public Task<CatalogReleaseDownloadResponse> GetSoftwareCatalogDownloadLink(Guid clientId, Guid softwareCatalogDeployId, Guid guidelineId)
         {
             NameValueCollection query = HttpUtility.ParseQueryString(string.Empty);
@@ -69,6 +104,7 @@ namespace Cluebiz.API
             query["guidelineId"] = guidelineId.ToString();
             return Get<CatalogReleaseDownloadResponse>("getSoftwareCatalogDownloadLink", clientId, query);
         }
+
 
         public async Task<Guid> StartBakingProcess(Guid clientId, Guid? softwareId, Guid guidelineId, bool isInidividual)
         {
@@ -82,10 +118,12 @@ namespace Cluebiz.API
             return (await Get<StartBakingProcessResponse>("SETBAKINGPROCESS", clientId, query)).ProcessId;
         }
 
+
         public Task<GetBakingProcessesResponse> GetBakingProcesses(Guid clientId)
         {
             return Get<GetBakingProcessesResponse>("GETBAKINGPROCESS", clientId);
         }
+
 
         public Task<CatalogReleaseDownloadResponse> GetSoftwareDownloadLink(Guid clientId, Guid softwareId, Guid guidelineId)
         {
@@ -94,6 +132,7 @@ namespace Cluebiz.API
             query["guidelineId"] = guidelineId.ToString();
             return Get<CatalogReleaseDownloadResponse>("GETSOFTWAREDOWNLOADLINK", clientId, query);
         }
+
 
         public async Task<string?> GetPackageRobotSessionToken(Guid clientId, Guid guidelineId)
         {
@@ -104,12 +143,14 @@ namespace Cluebiz.API
                 ?.Token;
         }
 
+
         public async Task<string> RequestPackageRobotSessionToken(Guid clientId, Guid guidelineId)
         {
             NameValueCollection query = HttpUtility.ParseQueryString("tokenType=robot");
             query["guidelineId"] = guidelineId.ToString();
             return (await Get<RobotSessionTokenResponse>("requestSimpleToken", clientId, query)).Token;
         }
+
 
         public async Task<Guid?> CreateSoftwareOrder(Guid clientId, string manufacturer, string productName, string version)
         {
@@ -120,12 +161,14 @@ namespace Cluebiz.API
             return (await Get<CreateOrderResponse>("addOrder", clientId, query)).Id;
         }
 
+
         public Task<GuidelineParametersResponse> GetGuidelineParameters(Guid clientId, Guid guidelineId)
         {
             NameValueCollection query = HttpUtility.ParseQueryString("language=german");
             query["guidelineId"] = guidelineId.ToString();
             return Get<GuidelineParametersResponse>("getGuidelineParameter", clientId, query);
         }
+
 
         public Task<GetOrderDetailsResponse> GetOrderDetails(Guid clientId, Guid orderId)
         {
@@ -134,8 +177,11 @@ namespace Cluebiz.API
             return Get<GetOrderDetailsResponse>("GETORDERDETAIL", clientId, query);
         }
 
+
         public Task<GetOrderResponse> GetOrders(Guid clientId)
             => Get<GetOrderResponse>("getorder", clientId);
+
+
 
         public async Task RemoveOrder(Guid clientId, Guid orderId)
         {
@@ -143,6 +189,7 @@ namespace Cluebiz.API
             query["orderId"] = orderId.ToString();
             await Get("removeOrder", null, query);
         }
+
 
         public async Task<Guid?> CreateClient(string clientName)
         {
@@ -152,8 +199,10 @@ namespace Cluebiz.API
             return (await Get<CreateClientResponse>("addClient", null, query)).Id;
         }
 
+
         public Task RemoveClient(Guid clientId)
             => Get("removeClient", clientId);
+
 
         public Task SetGuidelineParameter(Guid clientId, Guid guidelineId, string parameterId, string parameterValue)
         {
@@ -164,6 +213,7 @@ namespace Cluebiz.API
             return Get("SETGUIDELINEPARAMETER", clientId, query);
         }
 
+
         public Task<GetCatalogItemInvoicesResponse> GetCatalogItemInvoices(Guid clientId, Guid? invoiceId = null)
         {
             NameValueCollection query = HttpUtility.ParseQueryString(string.Empty);
@@ -172,12 +222,14 @@ namespace Cluebiz.API
             return Get<GetCatalogItemInvoicesResponse>("GETINVOICE", clientId, query);
         }
 
+
         public Task<RemoveCatalogItemInvoiceResponse> RemoveCatalogItemInvoice(Guid clientId, Guid invoiceId)
         {
             NameValueCollection query = HttpUtility.ParseQueryString(string.Empty);
             query["invoiceId"] = invoiceId.ToString();
             return Get<RemoveCatalogItemInvoiceResponse>("REMOVEINVOICE", clientId, query);
         }
+
 
         public Task<CreateCatalogItemInvoiceResponse> CreateCatalogItemInvoice(
             Guid clientId,
@@ -203,6 +255,7 @@ namespace Cluebiz.API
             query["guidelineTitle"] = title;
             return (await Get<CreateGuidelineResponse>("ADDGUIDELINE", clientId, query)).GuidelineId;
         }
+
 
     }
 }

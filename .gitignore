@@ -360,3 +360,6 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
+
+#Test project configuration file
+Cluebiz.API.Tests/appsettings.Local.json

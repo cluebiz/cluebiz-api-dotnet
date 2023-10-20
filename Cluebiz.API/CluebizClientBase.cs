@@ -9,16 +9,16 @@ using System.Web;
 
 namespace Cluebiz.API
 {
-    public class CluebizClientBase
+    internal class CluebizClientBase
     {
         private string userId;
         private string key;
 
         public HttpClient client;
         private DateTime lastTokenRefresh = DateTime.MinValue;
-        private string token;
+        private string? token;
 
-        public CluebizClientBase(string serverAddress, string userId, string key)
+        internal CluebizClientBase(string serverAddress, string userId, string key)
         {
             this.userId = userId;
             this.key = key;
