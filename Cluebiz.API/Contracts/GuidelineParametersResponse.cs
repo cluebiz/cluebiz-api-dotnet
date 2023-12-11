@@ -16,9 +16,12 @@ namespace Cluebiz.API.Contracts
         [JsonProperty("guidelineParameterName")]
         public string Name { get; set; }
 
+        [JsonProperty("guidelineParameterTitle")]
+        public string Title { get; set; }
+
         [JsonProperty("guidelineParameterValue")]
         public string Value { get; set; }
-
+        
         [JsonProperty("guidelineParameterDescription")]
         public string Description { get; set; }
 
@@ -35,6 +38,6 @@ namespace Cluebiz.API.Contracts
         public string DefaultValue { get; set; }
 
         [JsonProperty("guidelineParameterRequired")]
-        public string Required { get; set; }
+        public bool Required { get; set; }
     }
 }
