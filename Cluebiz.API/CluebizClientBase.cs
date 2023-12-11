@@ -18,10 +18,13 @@ namespace Cluebiz.API
         private DateTime lastTokenRefresh = DateTime.MinValue;
         private string? token;
 
+        protected string serverUrl;
+
         internal CluebizClientBase(string serverAddress, string userId, string key)
         {
             this.userId = userId;
             this.key = key;
+            this.serverUrl = serverAddress;
             HttpClientHandler handler = new HttpClientHandler();
             handler.Proxy = WebRequest.GetSystemWebProxy();
             handler.Proxy.Credentials = CredentialCache.DefaultNetworkCredentials;
@@ -34,7 +37,7 @@ namespace Cluebiz.API
         /// Stellt sicher das originalString mit der completion endet, und ergänzt alle notwendigen Zeichen
         /// ChatGPT hat das nicht gerallt, ist also gute alte Handarbeit - Sven
         /// </summary>
-        private string CompleteString(string originalString, string completion)
+        protected string CompleteString(string originalString, string completion)
         {
             int i;
             for (i = completion.Length; i > 0; i--)
