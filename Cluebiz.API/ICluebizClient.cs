@@ -207,7 +207,7 @@ namespace Cluebiz.API
         /// <param name="parameterId">Parameter</param>
         /// <param name="parameterValue">New Value, to set.</param>
         /// <returns></returns>
-        Task SetGuidelineParameter(Guid clientId, Guid guidelineId, string parameterId, string parameterValue);
+        Task SetGuidelineParameter(Guid clientId, Guid guidelineId, Guid parameterId, string parameterValue);
         #endregion
 
         #region DirectDownload

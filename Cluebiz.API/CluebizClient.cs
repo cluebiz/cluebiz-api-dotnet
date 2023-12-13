@@ -204,11 +204,11 @@ namespace Cluebiz.API
             => Get("removeClient", clientId);
 
 
-        public Task SetGuidelineParameter(Guid clientId, Guid guidelineId, string parameterId, string parameterValue)
+        public Task SetGuidelineParameter(Guid clientId, Guid guidelineId, Guid parameterId, string parameterValue)
         {
             NameValueCollection query = HttpUtility.ParseQueryString(string.Empty);
             query["guidelineId"] = guidelineId.ToString();
-            query["guidelineParameterId"] = parameterId;
+            query["guidelineParameterId"] = parameterId.ToString();
             query["guidelineParameterValue"] = parameterValue;
             return Get("SETGUIDELINEPARAMETER", clientId, query);
         }

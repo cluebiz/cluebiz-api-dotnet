@@ -122,11 +122,20 @@ namespace Cluebiz.API.Tests
 
             Guid glId=  await client.CreateGuideline(testClient.Id,"TES TEST TEST TEST");
 
+            GuidelineParametersResponse paramR = await client.GetGuidelineParameters(testClient.Id, glId);
+
+            await client.SetGuidelineParameter(testClient.Id,glId, Guid.Parse("bb82ace7-c500-e717-3dfd-51033f5a09b8"), "opsi");
+
+
+
             GuidelinesResponse response = await client.GetGuidelines(testClient.Id);
 
             Guideline newGuideline =  response.Guidelines.FirstOrDefault(x => x.GuidelineID == glId);
 
             if (newGuideline == null) Assert.Fail("new guideline not found");
+
+            var paramsResponse = await client.GetGuidelineParameters(testClient.Id, glId);
+
 
             await client.DeleteGuideline(testClient.Id,glId);
 
@@ -135,8 +144,17 @@ namespace Cluebiz.API.Tests
             newGuideline = responseAfterDelete.Guidelines.FirstOrDefault(x => x.GuidelineID == glId);
 
             if (newGuideline != null) Assert.Fail("new guideline not deleted");
+        }
+
+
+        [TestMethod]
+        public async Task Should_ClearGuidelines()
+        {
+            GuidelinesResponse response = await client.GetGuidelines(testClient.Id);
 
         }
+
+
 
 
         //[TestMethod]
