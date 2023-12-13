@@ -16,7 +16,5 @@ namespace Cluebiz.API.Contracts
 
         [JsonProperty("guidelineTitle")]
         public string GuidelineTitle { get; set; }
-
-        public GuidelineParameter[] Paramters { get; set; }
     }
 }
