@@ -107,6 +107,37 @@ namespace Cluebiz.API.Tests
             }
         }
 
+        [TestMethod]
+        public async Task Should_GetGuidelines()
+        {
+            GuidelinesResponse response = await client.GetGuidelines(testClient.Id);
+
+
+
+        }
+
+        [TestMethod]
+        public async Task Should_CreateAndDeleteGuideline()
+        {
+
+            Guid glId=  await client.CreateGuideline(testClient.Id,"TES TEST TEST TEST");
+
+            GuidelinesResponse response = await client.GetGuidelines(testClient.Id);
+
+            Guideline newGuideline =  response.Guidelines.FirstOrDefault(x => x.GuidelineID == glId);
+
+            if (newGuideline == null) Assert.Fail("new guideline not found");
+
+            await client.DeleteGuideline(testClient.Id,glId);
+
+            GuidelinesResponse responseAfterDelete = await client.GetGuidelines(testClient.Id);
+
+            newGuideline = responseAfterDelete.Guidelines.FirstOrDefault(x => x.GuidelineID == glId);
+
+            if (newGuideline != null) Assert.Fail("new guideline not deleted");
+
+        }
+
 
         //[TestMethod]
         //public async Task Should_GetCatalogItemParameters()
@@ -116,7 +147,7 @@ namespace Cluebiz.API.Tests
 
         //    PackageParametersResponse response = await client.GetSoftwareCatalogParameters(testClient.Id, catalogItemId);
         //    Assert.IsNotNull(response.Parameters);
-            
+
         //    if(response.Parameters.Length == 0)
         //    {
         //        Assert.Inconclusive("Catalog Item has no parameters.");

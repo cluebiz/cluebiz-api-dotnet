@@ -175,6 +175,14 @@ namespace Cluebiz.API
         Task<GuidelinesResponse> GetGuidelines(Guid clientId);
 
         /// <summary>
+        /// Delets a specific guideline
+        /// </summary>
+        /// <param name="clientId">For this client</param>
+        /// <param name="guidelineId">Id of the guideline to delete</param>
+        /// <returns>Nothing</returns>
+        Task DeleteGuideline(Guid clientId, Guid guidelineId);
+
+        /// <summary>
         /// Creates a new guideline for a customer client.
         /// </summary>
         /// <param name="clientId">Customer client</param>

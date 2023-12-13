@@ -256,6 +256,12 @@ namespace Cluebiz.API
             return (await Get<CreateGuidelineResponse>("ADDGUIDELINE", clientId, query)).GuidelineId;
         }
 
-
+        public async Task DeleteGuideline (Guid clientId, Guid guidelineId)
+        {
+            NameValueCollection query = HttpUtility.ParseQueryString(string.Empty);
+            query["guidelineId"] = guidelineId.ToString();
+            await Get("REMOVEGUIDELINE",clientId,query);
+        }
     }
+    
 }
