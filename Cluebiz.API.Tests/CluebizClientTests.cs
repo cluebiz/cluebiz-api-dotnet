@@ -312,13 +312,9 @@ namespace Cluebiz.API.Tests
         [TestMethod]
         public async Task Should_GetCatalogItemReleases()
         {
-            //5e1fc558-7fbb-46c9-8718-8a04bb47f288
-            // Zoom 5
             Guid catalogItemId = Guid.Parse("71a8fd6a-bd59-48ae-98db-8f4f0ff98152");
 
             CatalogItemReleaseResponse response = await client.GetSoftwareCatalogRelease(testClient.Id, catalogItemId);
-
-            int a = 5;
         }
 
     }
