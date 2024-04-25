@@ -30,5 +30,8 @@ namespace Cluebiz.API.Contracts
 
         [JsonProperty("softwareCatalogArchive")]
         public bool Archive { get; set; }
+
+        [JsonProperty("softwareLanguages")]
+        public string Languages { get; set; }
     }
 }

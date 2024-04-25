@@ -9,7 +9,7 @@ namespace Cluebiz.API.Tests
     [TestClass]
     public class CluebizClientTests
     {
-        private ICluebizClient client; 
+        private ICluebizClient client;
         private Client testClient;
         private IConfigurationRoot configuration;
 
@@ -27,13 +27,13 @@ namespace Cluebiz.API.Tests
 
                 configuration = builder.Build();
             }
-            catch(Exception ee)
+            catch (Exception ee)
             {
                 throw new Exception($"The test project setup is not complete. See readme.txt for instructions on how to set up the test project. {ee.Message}");
             }
 
-            
-            if(configuration["ServerAddress"] == null)
+
+            if (configuration["ServerAddress"] == null)
             {
                 throw new Exception("Please make sure you've created a secret containing the keys `ServerAddress`, `UserId` and `Key`." +
                     "\n See readme.txt for instructions on how to set up the test project.");
@@ -60,14 +60,33 @@ namespace Cluebiz.API.Tests
                 Assert.Inconclusive("There were no clients.");
             }
             Client c = clients.Clients.FirstOrDefault(x => x.ClientName == CUSTOMER_CLIENT_NAME);
-            
-            if(c == null)
+
+            if (c == null)
             {
                 throw new Exception($"\nCustomer client '{CUSTOMER_CLIENT_NAME}' set up in appsettings.Local.json was not found.\nSee readme.txt file for test project setup.\n" +
                     $"Did you mean '{string.Join("', '", clients.Clients.Select(x => x.ClientName).Where(x => x.Contains(CUSTOMER_CLIENT_NAME.Substring(0, CUSTOMER_CLIENT_NAME.IndexOf(' ')))))}'");
             }
 
             return c;
+
+        }
+
+
+        [TestMethod]
+        private async Task Should_CreateClient()
+        {
+            await client.CreateClient("TEMPORARY TEST CLIENT");
+
+            ClientResponse clients = await client.GetClients();
+
+            Client c = clients.Clients.First(x => x.ClientName == "TEMPORARY TEST CLIENT");
+
+            if(c == null)
+            {
+                Assert.Fail("Client was not created");
+            }
+
+            await client.RemoveClient(c.Id);
 
         }
 
@@ -98,7 +117,7 @@ namespace Cluebiz.API.Tests
         public async Task Should_GetGuidelineParameters()
         {
             GuidelinesResponse response = await client.GetGuidelines(testClient.Id);
-            GuidelineParametersResponse guidelineParameters = await client.GetGuidelineParameters(testClient.Id,response.Guidelines.First(g => g.GuidelineTitle == GUIDELINE_TITLE).GuidelineID);
+            GuidelineParametersResponse guidelineParameters = await client.GetGuidelineParameters(testClient.Id, response.Guidelines.FirstOrDefault(g => g.GuidelineTitle == GUIDELINE_TITLE).GuidelineID);
             Assert.IsNotNull(guidelineParameters);
 
             foreach (var parameter in guidelineParameters.Parameters)
@@ -107,10 +126,64 @@ namespace Cluebiz.API.Tests
             }
         }
 
+
+        [TestMethod]
+        public async Task Should_SetGuidelineParameter()
+        {
+            GuidelinesResponse response = await client.GetGuidelines(testClient.Id);
+
+            Guideline? guideline = response.Guidelines.FirstOrDefault(g => g.GuidelineTitle == GUIDELINE_TITLE);
+
+            if (guideline == null)
+            {
+                Assert.Inconclusive("No guideline found.");
+            }
+
+            GuidelineParametersResponse guidelineParameters = await client.GetGuidelineParameters(testClient.Id, guideline.GuidelineID);
+
+            GuidelineParameter? param = guidelineParameters.Parameters.FirstOrDefault(p => p.Id == "95b86fa5-7062-478e-b2c9-e6954ac7ddb8");
+
+            if (param == null)
+            {
+                Assert.Inconclusive("No parameter found");
+            }
+
+            if (param.Value == "500")
+            {
+                Assert.Inconclusive("Parameter already has value to be set.");
+            }
+
+
+            string originalValue = param.Value;
+
+            await client.SetGuidelineParameter(testClient.Id, guideline.GuidelineID, Guid.Parse(param.Id), "500");
+
+            guidelineParameters = await client.GetGuidelineParameters(testClient.Id, guideline.GuidelineID);
+
+            param = guidelineParameters.Parameters.FirstOrDefault(p => p.Id == "95b86fa5-7062-478e-b2c9-e6954ac7ddb8");
+
+            if (param == null)
+            {
+                Assert.Fail("Parameter does not exist after setting it. This should not be possible.");
+            }
+
+            if (param.Value != "500")
+            {
+                Assert.Inconclusive("Parameter was not set to the new value.");
+            }
+
+            await client.SetGuidelineParameter(testClient.Id, guideline.GuidelineID, Guid.Parse("95b86fa5-7062-478e-b2c9-e6954ac7ddb8"), originalValue);
+
+
+        }
+
         [TestMethod]
         public async Task Should_GetGuidelines()
         {
-            GuidelinesResponse response = await client.GetGuidelines(testClient.Id);
+
+            GuidelinesResponse response = await client.GetGuidelines(Guid.Parse("11027d41-d286-465e-a15f-18b802f3b173"));
+
+            GuidelinesResponse response2 = await client.GetGuidelines(testClient.Id);
 
 
 
@@ -120,24 +193,39 @@ namespace Cluebiz.API.Tests
         public async Task Should_CreateAndDeleteGuideline()
         {
 
-            Guid glId=  await client.CreateGuideline(testClient.Id,"TES TEST TEST TEST");
+            Guid glId = await client.CreateGuideline(testClient.Id, "TES TEST TEST TEST");
 
             GuidelineParametersResponse paramR = await client.GetGuidelineParameters(testClient.Id, glId);
 
-            await client.SetGuidelineParameter(testClient.Id,glId, Guid.Parse("bb82ace7-c500-e717-3dfd-51033f5a09b8"), "opsi");
+            await client.SetGuidelineParameter(testClient.Id, glId, Guid.Parse("bb82ace7-c500-e717-3dfd-51033f5a09b8"), "opsi");
 
 
 
             GuidelinesResponse response = await client.GetGuidelines(testClient.Id);
 
-            Guideline newGuideline =  response.Guidelines.FirstOrDefault(x => x.GuidelineID == glId);
+            Guideline newGuideline = response.Guidelines.FirstOrDefault(x => x.GuidelineID == glId);
 
             if (newGuideline == null) Assert.Fail("new guideline not found");
 
             var paramsResponse = await client.GetGuidelineParameters(testClient.Id, glId);
 
+            var deployTypeParam = paramsResponse.Parameters.FirstOrDefault(p => p.Id == "bb82ace7-c500-e717-3dfd-51033f5a09b8");
 
-            await client.DeleteGuideline(testClient.Id,glId);
+
+            await client.SetGuidelineParameter(testClient.Id, newGuideline.GuidelineID, Guid.Parse("bb82ace7-c500-e717-3dfd-51033f5a09b8"), "sccm");
+
+
+            paramsResponse = await client.GetGuidelineParameters(testClient.Id, glId);
+            deployTypeParam = paramsResponse.Parameters.FirstOrDefault(p => p.Id == "bb82ace7-c500-e717-3dfd-51033f5a09b8");
+
+            if(deployTypeParam.Value != "sccm")
+            {
+                Assert.Fail("Could not set deploy type parameter after guideline creation.");
+            }
+
+
+
+            await client.DeleteGuideline(testClient.Id, glId);
 
             GuidelinesResponse responseAfterDelete = await client.GetGuidelines(testClient.Id);
 
@@ -157,68 +245,81 @@ namespace Cluebiz.API.Tests
 
 
 
-        //[TestMethod]
-        //public async Task Should_GetCatalogItemParameters()
-        //{
-        //    // Adobe After Effects
-        //    Guid catalogItemId = Guid.Parse("6fcab492-3075-4335-9825-4a3c70409995");
+        [TestMethod]
+        public async Task Should_GetCatalogItemParameters()
+        {
+            // Adobe After Effects
+            Guid catalogItemId = Guid.Parse("6fcab492-3075-4335-9825-4a3c70409995");
 
-        //    PackageParametersResponse response = await client.GetSoftwareCatalogParameters(testClient.Id, catalogItemId);
-        //    Assert.IsNotNull(response.Parameters);
+            PackageParametersResponse response = await client.GetSoftwareCatalogParameters(testClient.Id, catalogItemId);
+            Assert.IsNotNull(response.Parameters);
 
-        //    if(response.Parameters.Length == 0)
-        //    {
-        //        Assert.Inconclusive("Catalog Item has no parameters.");
-        //    }
-
-
-        //    foreach (var parameter in response.Parameters)
-        //    {
-        //        Debug.WriteLine($"Name: '{parameter.Name}' Id:'{parameter.Id}' Value: '{parameter.FieldValue}' DefaultValue: '{parameter.DefaultValue}' ");
-        //    }
-        //}
+            if (response.Parameters.Length == 0)
+            {
+                Assert.Inconclusive("Catalog Item has no parameters.");
+            }
 
 
-        //[TestMethod]
-        //public async Task Should_SetCatalogItemParameters()
-        //{
-        //    // Chrome
-        //    Guid catalogItemId = Guid.Parse("6fcab492-3075-4335-9825-4a3c70409995");
-
-        //    PackageParametersResponse response = await client.GetSoftwareCatalogParameters(testClient.Id, catalogItemId);
-        //    Assert.IsNotNull(response.Parameters);
-
-        //    if (response.Parameters.Length == 0)
-        //    {
-        //        Assert.Inconclusive("Catalog Item has no parameters.");
-        //    }
-
-        //    PackageParameter homePageParameter = response.Parameters.FirstOrDefault(p => p.Name == "HomePage");
-
-        //    if(homePageParameter == null)
-        //    {
-        //        Assert.Inconclusive("Homepage Parameter not found.");
-        //    }
-
-        //    string testValue = "www.mytesturl.com";
-        //    string oldHomepage = homePageParameter.FieldValue;
-
-        //    SetPackageParameterResponse setResponse = await client.SetSoftwareCatalogParameter(testClient.Id,catalogItemId,Guid.Parse(homePageParameter.Id), testValue);
-
-        //    PackageParametersResponse newValueGetResponse = await client.GetSoftwareCatalogParameters(testClient.Id, catalogItemId);
-
-        //    homePageParameter = newValueGetResponse.Parameters.FirstOrDefault(p => p.Name == "HomePage");
-
-        //    Assert.IsTrue(testValue == homePageParameter.FieldValue,"Did not set the value of the parameter.");
-
-        //    SetPackageParameterResponse setBackResponse = await client.SetSoftwareCatalogParameter(testClient.Id, catalogItemId, Guid.Parse(homePageParameter.Id), oldHomepage);
+            foreach (var parameter in response.Parameters)
+            {
+                Debug.WriteLine($"Name: '{parameter.Name}' Id:'{parameter.Id}' Value: '{parameter.FieldValue}' DefaultValue: '{parameter.DefaultValue}' ");
+            }
+        }
 
 
+        [TestMethod]
+        public async Task Should_SetCatalogItemParameters()
+        {
+            // Chrome
+            Guid catalogItemId = Guid.Parse("6fcab492-3075-4335-9825-4a3c70409995");
 
-        //    //foreach (var parameter in response.Parameters)
-        //    //{
-        //    //    Debug.WriteLine($"Name: '{parameter.Name}' Id:'{parameter.Id}' FieldValue: '{parameter.FieldValue}' DefaultValue: '{parameter.DefaultValue}' ");
-        //    //}
-        //}
+            PackageParametersResponse response = await client.GetSoftwareCatalogParameters(testClient.Id, catalogItemId);
+            Assert.IsNotNull(response.Parameters);
+
+            if (response.Parameters.Length == 0)
+            {
+                Assert.Inconclusive("Catalog Item has no parameters.");
+            }
+
+            PackageParameter homePageParameter = response.Parameters.FirstOrDefault(p => p.Name == "HomePage");
+
+            if (homePageParameter == null)
+            {
+                Assert.Inconclusive("Homepage Parameter not found.");
+            }
+
+            string testValue = "www.mytesturl.com";
+            string oldHomepage = homePageParameter.FieldValue;
+
+            SetPackageParameterResponse setResponse = await client.SetSoftwareCatalogParameter(testClient.Id, catalogItemId, Guid.Parse(homePageParameter.Id), testValue);
+
+            PackageParametersResponse newValueGetResponse = await client.GetSoftwareCatalogParameters(testClient.Id, catalogItemId);
+
+            homePageParameter = newValueGetResponse.Parameters.FirstOrDefault(p => p.Name == "HomePage");
+
+            Assert.IsTrue(testValue == homePageParameter.FieldValue, "Did not set the value of the parameter.");
+
+            SetPackageParameterResponse setBackResponse = await client.SetSoftwareCatalogParameter(testClient.Id, catalogItemId, Guid.Parse(homePageParameter.Id), oldHomepage);
+
+
+
+            //foreach (var parameter in response.Parameters)
+            //{
+            //    Debug.WriteLine($"Name: '{parameter.Name}' Id:'{parameter.Id}' FieldValue: '{parameter.FieldValue}' DefaultValue: '{parameter.DefaultValue}' ");
+            //}
+        }
+
+        [TestMethod]
+        public async Task Should_GetCatalogItemReleases()
+        {
+            //5e1fc558-7fbb-46c9-8718-8a04bb47f288
+            // Zoom 5
+            Guid catalogItemId = Guid.Parse("71a8fd6a-bd59-48ae-98db-8f4f0ff98152");
+
+            CatalogItemReleaseResponse response = await client.GetSoftwareCatalogRelease(testClient.Id, catalogItemId);
+
+            int a = 5;
+        }
+
     }
 }

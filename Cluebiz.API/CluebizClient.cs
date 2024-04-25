@@ -204,7 +204,32 @@ namespace Cluebiz.API
             => Get("removeClient", clientId);
 
 
+        /// <summary>
+        /// For setting deployment type
+        /// </summary>
+        /// <param name="clientId"></param>
+        /// <param name="guidelineId"></param>
+        /// <param name="parameterId"></param>
+        /// <param name="parameterValue"></param>
+        /// <returns></returns>
         public Task SetGuidelineParameter(Guid clientId, Guid guidelineId, Guid parameterId, string parameterValue)
+        {
+            NameValueCollection query = HttpUtility.ParseQueryString(string.Empty);
+            query["guidelineId"] = guidelineId.ToString();
+            query["guidelineParameterId"] = parameterId.ToString();
+            query["guidelineParameterValue"] = parameterValue;
+            return Get("SETGUIDELINEPARAMETER", clientId, query);
+        }
+
+        /// <summary>
+        /// For setting non-deployment type
+        /// </summary>
+        /// <param name="clientId"></param>
+        /// <param name="guidelineId"></param>
+        /// <param name="parameterId"></param>
+        /// <param name="parameterValue"></param>
+        /// <returns></returns>
+        public Task SetGuidelineParameter(Guid clientId, Guid guidelineId, string parameterId, string parameterValue)
         {
             NameValueCollection query = HttpUtility.ParseQueryString(string.Empty);
             query["guidelineId"] = guidelineId.ToString();
