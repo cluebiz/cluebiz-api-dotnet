@@ -312,7 +312,7 @@ namespace Cluebiz.API.Tests
         [TestMethod]
         public async Task Should_GetCatalogItemReleases()
         {
-            Guid catalogItemId = Guid.Parse("71a8fd6a-bd59-48ae-98db-8f4f0ff98152");
+            Guid catalogItemId = Guid.Parse("837b537f-30b9-4502-b2d4-15340d0e065f");
 
             CatalogItemReleaseResponse response = await client.GetSoftwareCatalogRelease(testClient.Id, catalogItemId);
         }
