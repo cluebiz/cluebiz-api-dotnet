@@ -287,6 +287,17 @@ namespace Cluebiz.API
             query["guidelineId"] = guidelineId.ToString();
             await Get("REMOVEGUIDELINE",clientId,query);
         }
+
+        public async Task<string> SubmitFeedback(string email, string phone, int priority, string description)
+        {
+            NameValueCollection query = HttpUtility.ParseQueryString(string.Empty);
+            query["email"] = email;
+            query["phone"] = email;
+            query["priority"] = priority.ToString();
+            query["description"] = description;
+            return (await Get<SubmitFeedbackResponse>("ADDFEEDBACK", null, query)).TicketNumber;
+
+        }
     }
     
 }

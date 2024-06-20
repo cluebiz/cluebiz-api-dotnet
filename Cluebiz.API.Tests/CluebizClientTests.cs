@@ -317,5 +317,20 @@ namespace Cluebiz.API.Tests
             CatalogItemReleaseResponse response = await client.GetSoftwareCatalogRelease(testClient.Id, catalogItemId);
         }
 
+        [TestMethod]
+        public async Task Should_SubmitFeedback()
+        {
+            string email = "labtagonTest@mail.de";
+            string phone = "+4916622";
+            int priority = 1;
+            string description = "Testing ticket Submit";
+           
+            string response = await client.SubmitFeedback(email,phone,priority,description);
+            Assert.IsNotNull(response);
+            Debug.WriteLine("Ticket was created your Ticketnumber: " + response);
+            
+
+        }
+
     }
 }
