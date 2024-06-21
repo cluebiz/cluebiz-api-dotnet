@@ -291,10 +291,10 @@ namespace Cluebiz.API
         public async Task<string> SubmitFeedback(string email, string phone, int priority, string description)
         {
             NameValueCollection query = HttpUtility.ParseQueryString(string.Empty);
-            query["email"] = email;
-            query["phone"] = email;
-            query["priority"] = priority.ToString();
-            query["description"] = description;
+            query["ownerlogin"] = email;
+            query["ownerphone"] = email;
+            query["Priority"] = priority.ToString();
+            query["Description"] = description;
             return (await Get<SubmitFeedbackResponse>("ADDFEEDBACK", null, query)).TicketNumber;
 
         }
