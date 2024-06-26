@@ -298,6 +298,24 @@ namespace Cluebiz.API
             return (await Get<SubmitFeedbackResponse>("ADDFEEDBACK", null, query)).TicketNumber;
 
         }
+
+        public async Task<Guid> StartFileUpload(int fileSize)
+        {
+            NameValueCollection query = HttpUtility.ParseQueryString(string.Empty);
+            query["filesize"] = fileSize.ToString();
+           
+            return (await Get<StartFileUploadResponse>("FILEUPLOADSTART", null, query)).FileId;
+
+        }
+
+        public async Task FileChunkUpload(Guid fileId, string data)
+        {
+            NameValueCollection query = HttpUtility.ParseQueryString(string.Empty);
+            query["filesize"] = fileId.ToString();
+            query["data"] = data;
+            await Get("FILEUPLOADCHUNKSEND", null, query);
+
+        }
     }
     
 }

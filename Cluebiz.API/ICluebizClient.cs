@@ -315,6 +315,23 @@ namespace Cluebiz.API
         /// <returns></returns>
         Task<string> SubmitFeedback(string email, string phone, int priority,string description);
 
+
+        #endregion
+        #region FileHandling
+        /// <summary>
+        /// Prepare server for incoming Chunks
+        /// </summary>
+        /// <param name="fileSize"></param>
+        /// <returns></returns>
+        Task<Guid> StartFileUpload(int fileSize);
+        /// <summary>
+        /// Uploading fileChunks to the server
+        /// </summary>
+        /// <param name="fileId"> fileId you previously created with StartFileUpload</param>
+        /// <param name="data"> data from file as base64</param>
+        /// <returns></returns>
+        Task FileChunkUpload(Guid fileId, string data);
+
         #endregion
     }
 }
