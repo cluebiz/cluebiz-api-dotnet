@@ -334,7 +334,7 @@ namespace Cluebiz.API
 
         }
 
-        SETSOFTWARECATALOGPARAMETERFILE
+       
     }
     
 }
