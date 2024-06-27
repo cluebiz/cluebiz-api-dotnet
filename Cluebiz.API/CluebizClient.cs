@@ -327,11 +327,6 @@ namespace Cluebiz.API
             query["fileId"] = fileId.ToString();
             query["guidelineId]"] = guidelineId.ToString();
             await Get("SETSOFTWARECATALOGPARAMETERFILE", null, query);
-
-
-  
-
-
         }
 
        
