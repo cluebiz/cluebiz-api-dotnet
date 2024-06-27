@@ -8,7 +8,7 @@ namespace Cluebiz.API.Contracts
     public class SubmitFeedbackResponse
     {
 
-        [JsonProperty("ticketnumber")]
+      [JsonProperty("ticketnumber")]
       public  string TicketNumber { get; set; }
     }
 }
