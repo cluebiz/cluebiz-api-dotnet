@@ -236,6 +236,7 @@ namespace Cluebiz.API
             query["guidelineParameterId"] = parameterId.ToString();
             query["guidelineParameterValue"] = parameterValue;
             return Get("SETGUIDELINEPARAMETER", clientId, query);
+
         }
 
 
