@@ -13,7 +13,7 @@
   </ItemGroup>
  <PropertyGroup>
     <Authors>Cluebiz Technologies GmbH, Labtagon GmbH</Authors>
-     <Version>1.0.11</Version>
+     <Version>1.0.13</Version>
     <Description>API for Cluebiz Services</Description>
     <PackageProjectUrl>https://www.cluebiz.ch</PackageProjectUrl>
     <PackageTags>api</PackageTags>
