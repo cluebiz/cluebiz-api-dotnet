@@ -289,11 +289,12 @@ namespace Cluebiz.API
             await Get("REMOVEGUIDELINE",clientId,query);
         }
 
-        public async Task<string> SubmitFeedback(string email, string phone, int priority, string description)
+        public async Task<string> SubmitFeedback(string email, string phone, int priority, string description ,int refernceNumber)
         {
             NameValueCollection query = HttpUtility.ParseQueryString(string.Empty);
             query["ownerlogin"] = email;
-            query["ownerphone"] = email;
+            query["ownerphone"] = phone;
+            query["referencenumber"] = refernceNumber.ToString();
             query["Priority"] = priority.ToString();
             query["Description"] = description;
             return (await Get<SubmitFeedbackResponse>("ADDFEEDBACK", null, query)).TicketNumber;
