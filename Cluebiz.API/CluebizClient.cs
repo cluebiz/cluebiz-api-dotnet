@@ -294,7 +294,7 @@ namespace Cluebiz.API
             NameValueCollection query = HttpUtility.ParseQueryString(string.Empty);
             query["ownerlogin"] = email;
             query["ownerphone"] = phone;
-            query["referencenumber"] = refernceNumber.ToString();
+            query["referencenumber"] = refernceNumber;
             query["Priority"] = priority.ToString();
             query["Description"] = description;
             return (await Get<SubmitFeedbackResponse>("ADDFEEDBACK", null, query)).TicketNumber;
