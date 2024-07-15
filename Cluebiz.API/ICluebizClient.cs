@@ -312,8 +312,9 @@ namespace Cluebiz.API
         /// <param name="phone"></param>
         /// <param name="priority">1 low, 2 mid,3 high</param>
         /// <param name="description"></param>
+        /// <param name="refernceNumber"></param>
         /// <returns></returns>
-        Task<string> SubmitFeedback(string email, string phone, int priority,string description, int refernceNumber);
+        Task<string> SubmitFeedback(string email, string phone, int priority,string description, string refernceNumber);
 
 
         #endregion

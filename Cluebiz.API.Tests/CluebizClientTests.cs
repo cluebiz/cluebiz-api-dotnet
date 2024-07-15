@@ -324,8 +324,8 @@ namespace Cluebiz.API.Tests
             string phone = "+4916622";
             int priority = 1;
             string description = "Testing ticket Submit";
-           
-            string response = await client.SubmitFeedback(email,phone,priority,description);
+            string referenceNumbe = "21234Test";
+            string response = await client.SubmitFeedback(email,phone,priority,description, referenceNumbe);
             Assert.IsNotNull(response);
             Debug.WriteLine("Ticket was created your Ticketnumber: " + response);
             
