@@ -323,6 +323,7 @@ namespace Cluebiz.API
         /// Prepare server for incoming Chunks
         /// </summary>
         /// <param name="fileSize"></param>
+        /// <param name="clientId"></param>
         /// <returns></returns>
         Task<Guid> StartFileUpload(int fileSize,Guid clientId);
         /// <summary>
@@ -330,8 +331,9 @@ namespace Cluebiz.API
         /// </summary>
         /// <param name="fileId"> fileId you previously created with StartFileUpload</param>
         /// <param name="data"> data from file as base64</param>
+        /// <param name="clientId"></param>
         /// <returns></returns>
-        Task FileChunkUpload(Guid fileId, string data);
+        Task FileChunkUpload(Guid fileId, string data,Guid clientId);
         Task SetSoftwareParameterFile(string clientId, Guid softwareCatalogId, Guid softwareCatalogParameterId, Guid fileId, Guid? guidelineId = null);
 
         #endregion
