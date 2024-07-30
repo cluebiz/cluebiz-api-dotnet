@@ -319,14 +319,14 @@ namespace Cluebiz.API
 
         }
 
-        public async Task SetSoftwareParameterFile(string clientId, Guid softwareCatalogId, Guid softwareCatalogParameterId, Guid fileId, Guid guidelineId)
+        public async Task SetSoftwareParameterFile(string clientId, Guid softwareCatalogId, Guid softwareCatalogParameterId, Guid fileId, Guid? guidelineId)
         {
             NameValueCollection query = HttpUtility.ParseQueryString(string.Empty);
             query["clientId"] = clientId.ToString();
             query["softwareCatalogId"] = softwareCatalogId.ToString();
             query["softwareCatalogParameterId"] = softwareCatalogParameterId.ToString();
             query["fileId"] = fileId.ToString();
-            query["guidelineId]"] = guidelineId.ToString();
+            if(guidelineId!= null) query["guidelineId]"] = guidelineId.ToString();
             await Get("SETSOFTWARECATALOGPARAMETERFILE", null, query);
         }
 
