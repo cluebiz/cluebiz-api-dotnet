@@ -4,6 +4,7 @@ using System;
 using System.Collections.Specialized;
 using System.Net;
 using System.Net.Http;
+using System.Text;
 using System.Threading.Tasks;
 using System.Web;
 
@@ -104,6 +105,30 @@ namespace Cluebiz.API
 
             return deserialized;
         }
+
+        protected async Task PostChunks( string base64,Guid fileId, Guid? clientId = null)
+        {
+        
+            if (clientId.HasValue)
+                clientId.ToString();
+            var token = await GetToken();
+
+            var postBody = new
+            {
+                cmd = "fileuploadchunksend",
+                token,
+                clientId,
+                fileId,
+                data = base64
+            };
+
+            string jsonPostBody = JsonConvert.SerializeObject(postBody);
+            var content = new StringContent(jsonPostBody, Encoding.UTF8, "application/json");
+
+            HttpResponseMessage response = await client.PostAsync("/REST",content);
+            string responseContent = await response.Content.ReadAsStringAsync();
+        }
+
 
         ~CluebizClientBase()
         {

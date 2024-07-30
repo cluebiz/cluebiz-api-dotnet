@@ -313,11 +313,8 @@ namespace Cluebiz.API
 
         public async Task FileChunkUpload(Guid fileId, string data, Guid clientId)
         {
-            NameValueCollection query = HttpUtility.ParseQueryString(string.Empty);
-            query["filesize"] = fileId.ToString();
-            query["data"] = data;
-            query["clientId"] = client.ToString();
-            await Get("FILEUPLOADCHUNKSEND", null, query);
+
+            await PostChunks(data, fileId, clientId);
 
         }
 
