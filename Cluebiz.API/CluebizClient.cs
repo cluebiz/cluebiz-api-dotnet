@@ -301,20 +301,22 @@ namespace Cluebiz.API
 
         }
 
-        public async Task<Guid> StartFileUpload(int fileSize)
+        public async Task<Guid> StartFileUpload(int fileSize,Guid clientId)
         {
             NameValueCollection query = HttpUtility.ParseQueryString(string.Empty);
-            query["filesize"] = fileSize.ToString();
-           
-            return (await Get<StartFileUploadResponse>("FILEUPLOADSTART", null, query)).FileId;
+            query["fileSize"] = fileSize.ToString();
+            query["clientId"] = "9c1a497b-9d5f-4ada-ad20-3416f902bc1b";
+            var x = (await Get<StartFileUploadResponse>("FILEUPLOADSTART", null, query));
+            return x.FileId;
 
         }
 
-        public async Task FileChunkUpload(Guid fileId, string data)
+        public async Task FileChunkUpload(Guid fileId, string data, Guid clientId)
         {
             NameValueCollection query = HttpUtility.ParseQueryString(string.Empty);
             query["filesize"] = fileId.ToString();
             query["data"] = data;
+            query["clientId"] = client.ToString();
             await Get("FILEUPLOADCHUNKSEND", null, query);
 
         }

@@ -324,7 +324,7 @@ namespace Cluebiz.API
         /// </summary>
         /// <param name="fileSize"></param>
         /// <returns></returns>
-        Task<Guid> StartFileUpload(int fileSize);
+        Task<Guid> StartFileUpload(int fileSize,Guid clientId);
         /// <summary>
         /// Uploading fileChunks to the server
         /// </summary>

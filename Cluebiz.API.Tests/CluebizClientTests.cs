@@ -332,6 +332,15 @@ namespace Cluebiz.API.Tests
 
         }
 
+
+        [TestMethod]
+        public async Task Should_StartFileUpload()
+        {
+
+            var response = await client.StartFileUpload(425,Guid.Empty);
+            Assert.IsNotNull(response);
+            Debug.WriteLine("I got my FileUpload id " + response.ToString());
+        }
   
 
     }

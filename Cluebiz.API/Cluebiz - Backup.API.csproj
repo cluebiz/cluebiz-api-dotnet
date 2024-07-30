@@ -6,6 +6,7 @@
     <LangVersion>9.0</LangVersion>
     <GenerateDocumentationFile>True</GenerateDocumentationFile>
    
+    <UserSecretsId>983de709-61cd-454f-9fee-832d3db55dab</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>
@@ -18,7 +19,6 @@
     <PackageProjectUrl>https://www.cluebiz.ch</PackageProjectUrl>
     <PackageTags>api</PackageTags>
     <RepositoryUrl>https://github.com/cluebiz/cluebiz-api-dotnet</RepositoryUrl>
-    <UserSecretsId>30effc3b-3314-4007-8540-e6794652a79f</UserSecretsId>
   </PropertyGroup>
 </Project>
  
