@@ -305,7 +305,7 @@ namespace Cluebiz.API
         {
             NameValueCollection query = HttpUtility.ParseQueryString(string.Empty);
             query["fileSize"] = fileSize.ToString();
-            query["clientId"] = "9c1a497b-9d5f-4ada-ad20-3416f902bc1b";
+            query["clientId"] = clientId.ToString();
             var x = (await Get<StartFileUploadResponse>("FILEUPLOADSTART", null, query));
             return x.FileId;
 
