@@ -332,7 +332,7 @@ namespace Cluebiz.API
         /// <param name="data"> data from file as base64</param>
         /// <returns></returns>
         Task FileChunkUpload(Guid fileId, string data);
-        Task SetSoftwareParameterFile(string clientId, Guid softwareCatalogId, Guid softwareCatalogParameterId, Guid fileId, Guid? guidelineId);
+        Task SetSoftwareParameterFile(string clientId, Guid softwareCatalogId, Guid softwareCatalogParameterId, Guid fileId, Guid? guidelineId = null);
 
         #endregion
     }
