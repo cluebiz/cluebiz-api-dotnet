@@ -106,26 +106,25 @@ namespace Cluebiz.API
             return deserialized;
         }
 
-        protected async Task PostChunks( string base64,Guid fileId, Guid? clientId = null)
+        protected async Task PostChunks( string base64,Guid clueBizfileId, Guid? cluebizClientId = null)
         {
         
-            if (clientId.HasValue)
-                clientId.ToString();
-            var token = await GetToken();
+            if (cluebizClientId.HasValue) cluebizClientId.ToString();
+            var cluebizToken = await GetToken();
 
             var postBody = new
             {
                 cmd = "fileuploadchunksend",
-                token,
-                clientId,
-                fileId,
+                token = cluebizToken,
+                clientId = cluebizClientId,
+                fileId = clueBizfileId,
                 data = base64
             };
 
             string jsonPostBody = JsonConvert.SerializeObject(postBody);
             var content = new StringContent(jsonPostBody, Encoding.UTF8, "application/json");
 
-            HttpResponseMessage response = await client.PostAsync("/REST",content);
+            HttpResponseMessage response = await client.PostAsync("?",content);
             string responseContent = await response.Content.ReadAsStringAsync();
         }
 
