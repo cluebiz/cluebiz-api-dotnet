@@ -334,7 +334,7 @@ namespace Cluebiz.API
         /// <param name="clientId"></param>
         /// <returns></returns>
         Task FileChunkUpload(Guid fileId, string data,Guid clientId);
-        Task SetSoftwareParameterFile(string clientId, Guid softwareCatalogId, Guid softwareCatalogParameterId, Guid fileId, Guid? guidelineId = null);
+        Task SetSoftwareParameterFile(Guid softwareCatalogId, Guid softwareCatalogParameterId, Guid fileId, Guid clientId, Guid? guidelineId = null);
 
         #endregion
     }
