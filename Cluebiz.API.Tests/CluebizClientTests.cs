@@ -113,6 +113,46 @@ namespace Cluebiz.API.Tests
             }
         }
 
+        [TestMethod]
+        public async Task Should_GetFullCatalog()
+        {
+            Dictionary<SoftwareCatalog, List<SoftwareCatalogRelease>> packagesWithReleases = new Dictionary<SoftwareCatalog, List<SoftwareCatalogRelease>>();
+
+            foreach (Cluebiz.API.Contracts.SoftwareCatalog catalogItem in (await client.GetSoftwareCatalog(testClient.Id)).SoftwareCatalog)
+            {
+                List<SoftwareCatalogRelease> releases = new List<SoftwareCatalogRelease>();
+                packagesWithReleases.Add(catalogItem,releases);
+
+                var releaseResponse = (await client.GetSoftwareCatalogRelease(testClient.Id, catalogItem.CatalogId));
+
+                if (releaseResponse.Catalogs != null)
+                {
+                    foreach (Cluebiz.API.Contracts.SoftwareCatalogRelease release in releaseResponse.Catalogs)
+                    {
+                        releases.Add(release);
+                    }
+
+                }
+            }
+
+            var packagesWithoutAnyReleases = packagesWithReleases.Where(x => x.Value.Count == 0);
+
+            var packagesWithoutIncludedReleases = packagesWithReleases.Where(x => 
+            !x.Value.Any(r => r.PackageType != "msix" && r.PackageType != "msx" && r.PackageType != "appv"
+            && r.PackageType != "macos"));
+
+
+            var packagesWithoutAnyReleasesCSV ="Name;Id\n" +
+                string.Join("\n",packagesWithoutAnyReleases.Select(r => r.Key.CatalogName + ";" + r.Key.CatalogId));
+
+            var packagesWithoutIncludedReleasesCSV = "Name;Id;Releases\n" +
+    string.Join("\n", packagesWithoutIncludedReleases.Select(r => r.Key.CatalogName + ";" + r.Key.CatalogId+";"+string.Join(",",r.Value.Select(p=> p.PackageType))));
+
+
+            int a = 5;
+
+        }
+
 
         [TestMethod]
         public async Task Should_GetGuidelineParameters()
@@ -250,9 +290,9 @@ namespace Cluebiz.API.Tests
         public async Task Should_GetCatalogItemParameters()
         {
             // Adobe After Effects
-            Guid catalogItemId = Guid.Parse("6fcab492-3075-4335-9825-4a3c70409995");
+            Guid catalogItemId = Guid.Parse("b0670290-e8ba-4de5-af31-37c9cb26af27");
 
-            PackageParametersResponse response = await client.GetSoftwareCatalogParameters(testClient.Id, catalogItemId);
+            PackageParametersResponse response = await client.GetSoftwareCatalogParameters(new Guid("e56e4746-5ca6-452c-a333-2cfe272b5681"), catalogItemId);
             Assert.IsNotNull(response.Parameters);
 
             if (response.Parameters.Length == 0)
@@ -313,7 +353,7 @@ namespace Cluebiz.API.Tests
         [TestMethod]
         public async Task Should_GetCatalogItemReleases()
         {
-            Guid catalogItemId = Guid.Parse("837b537f-30b9-4502-b2d4-15340d0e065f");
+            Guid catalogItemId = Guid.Parse("206c8338-0c3b-4ddd-9648-2f83d9e8c91e");
 
             CatalogItemReleaseResponse response = await client.GetSoftwareCatalogRelease(testClient.Id, catalogItemId);
         }
@@ -344,7 +384,7 @@ namespace Cluebiz.API.Tests
 
             await client.FileChunkUpload(fileId, base64, clientId);
 
-            await client.SetSoftwareParameterFile(clientId.ToString(), softwareCatalogId, parameterId, fileId);
+            await client.SetSoftwareParameterFile(clientId, softwareCatalogId, parameterId, fileId);
 
 
         }

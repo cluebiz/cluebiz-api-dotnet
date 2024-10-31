@@ -195,7 +195,7 @@ namespace Cluebiz.API
         {
             NameValueCollection query = HttpUtility.ParseQueryString(string.Empty);
             query["clientName"] = clientName;
-            query["publicUrl"] = CompleteString(serverUrl, "/fragments2"); ;
+            query["publicUrl"] = serverUrl;
             return (await Get<CreateClientResponse>("addClient", null, query)).Id;
         }
 

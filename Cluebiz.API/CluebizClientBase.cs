@@ -31,29 +31,10 @@ namespace Cluebiz.API
             handler.Proxy.Credentials = CredentialCache.DefaultNetworkCredentials;
             client = new HttpClient(handler);
 
-            client.BaseAddress = new Uri(CompleteString(serverAddress, "/fragments2/REST"));
+            client.BaseAddress = new Uri(serverAddress + (serverAddress.EndsWith("/") ? "" : "/") + "REST/");
         }
 
-        /// <summary>
-        /// Stellt sicher das originalString mit der completion endet, und ergänzt alle notwendigen Zeichen
-        /// ChatGPT hat das nicht gerallt, ist also gute alte Handarbeit - Sven
-        /// </summary>
-        protected string CompleteString(string originalString, string completion)
-        {
-            int i;
-            for (i = completion.Length; i > 0; i--)
-            {
-                string part = completion.Substring(0, i);
-                if (originalString.EndsWith(part))
-                {
-                    originalString += completion.Substring(i);
-                    break;
-                }
-            }
 
-            if (i == 0) originalString += completion;
-            return originalString;
-        }
 
         private async Task<string> GetToken()
         {
